@@ -1904,10 +1904,24 @@ var app = new Vue({
   el: '#app'
 });
 console.log("miau");
-var cities = document.getElementById('cities');
-cities.addEventListener('change', function () {
-  document.getElementById('cityfilter').submit();
-});
+
+if (false) { var cities; }
+
+var cells = document.getElementsByClassName('selectable');
+console.log(cells.length);
+
+var _loop = function _loop(i) {
+  var cell = cells[i];
+  cells[i].addEventListener('click', function () {
+    // cells[i].value ="tekstas";
+    console.log(cells[i].getAttribute('value'));
+    cells[i].classList.toggle("green");
+  });
+};
+
+for (var i = 0; i < cells.length; i++) {
+  _loop(i);
+}
 
 /***/ }),
 

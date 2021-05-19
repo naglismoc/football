@@ -32,8 +32,24 @@ const app = new Vue({
 });
 
 console.log("miau");
-let cities = document.getElementById('cities');
-cities.addEventListener('change',function(){
-    document.getElementById('cityfilter').submit();
-  
-});
+if(false){
+    let cities = document.getElementById('cities');
+    cities.addEventListener('change',function(){
+        document.getElementById('cityfilter').submit();
+    
+    });
+}
+
+
+let cells = document.getElementsByClassName('selectable');
+console.log(cells.length);
+for (let i = 0; i < cells.length; i++) {
+    const cell = cells[i];
+    cells[i].addEventListener('click', function(){
+        // cells[i].value ="tekstas";
+        console.log(cells[i].getAttribute('value'));
+
+        cells[i].classList.toggle("green");
+    });
+}
+   

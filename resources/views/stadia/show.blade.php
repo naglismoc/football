@@ -10,6 +10,9 @@
     .weekend{
         background-color: rgb(201, 193, 193);
     }
+    .green{
+        background-color: green;
+    }
     .card-body > .table >  tbody > tr> td:first-of-type{
         width: 80px;
     }
@@ -57,8 +60,9 @@
                        </tr>
                           {{-- darbo valandos --}}
                        @for ($i = 6; $i < 6+16; $i++)
+                       <?php $time = substr("0".$i, -2).":00"; ?>
                             <tr>
-                                <td>{{substr("0".$i, -2).":00"}}</td>
+                                <td>{{$time}}</td>
                                 {{-- kalendoriaus turinys --}}
                                 @for ($a = 0; $a <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $a++)
                                 
@@ -69,11 +73,8 @@
                                     $class = "weekend";
                                    } 
                                    ?>
-                                   
-                                   
-                                        <td class="{{$class}}"></td> 
-                                    
-                                   
+                                        <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+
                                 @endfor
                             </tr>
                        @endfor
