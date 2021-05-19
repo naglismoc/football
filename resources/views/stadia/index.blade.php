@@ -13,6 +13,7 @@
                     <form id="cityfilter" action="{{route('stadia.index')}}" method="get">
                     <select name="city" id="cities">
                         <option value="0">pasirinkite miestą</option>
+                        <option value="1">visi miestai</option>
                         @foreach ($cities as $city)
                         <option value="{{$city->city}}">{{$city->city}}</option>
                         @endforeach
@@ -25,6 +26,7 @@
                           <th>Stadiono pavadinimas</th>
                           <th>miestas</th>
                           <th>adresas</th>
+                          <th>rezervuoti</th>
                         </tr>
                      
                         @foreach ($stadia as $stadium)
@@ -32,6 +34,8 @@
                                 <td>{{$stadium->name}}</td>
                                 <td>{{$stadium->city}}</td>
                                 <td>{{$stadium->address}}</td>
+                                <td><a href="{{route('stadia.show',$stadium)}}">uzeiti</a></td>
+                                
                               </tr>
                         @endforeach
                         

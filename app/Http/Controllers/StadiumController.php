@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stadium;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 
 class StadiumController extends Controller
@@ -17,7 +18,9 @@ class StadiumController extends Controller
         \DB::statement("SET SQL_MODE=''"); 
         $cities = \DB::select('select city from stadia group by city order by city asc');
        
-        if(isset($_GET['city'])){
+        if(isset($_GET['city']) 
+            && $_GET['city'] != "0" 
+            && $_GET['city'] != "1"){
             $stadia = Stadium::where('city','=',$_GET['city'])->get();
         }else{
         $stadia = Stadium::all();
@@ -58,9 +61,13 @@ class StadiumController extends Controller
      * @param  \App\Models\Stadium  $stadium
      * @return \Illuminate\Http\Response
      */
-    public function show(Stadium $stadium)
+    public function show($id)
     {
-        //
+        $stadium = Stadium::find($id);
+        $registrations = Registration::where('stadium_id',$stadium->id)->get();
+ 
+
+        return view('stadia.show',['stadium' => $stadium, 'registrations' =>$registrations]);
     }
 
     /**

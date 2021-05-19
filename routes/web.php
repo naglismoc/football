@@ -23,6 +23,7 @@ Route::group(['prefix' => 'stadia'], function(){
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/create', [App\Http\Controllers\StadiumController::class, 'create'])->name('stadia.create');
         Route::post('/store', [App\Http\Controllers\StadiumController::class, 'store'])->name('stadia.store');
+        Route::get('/show/{Stadium}', [App\Http\Controllers\StadiumController::class, 'show'])->name('stadia.show');
         
     });
 
