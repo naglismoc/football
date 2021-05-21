@@ -43,6 +43,7 @@
                                 <td>{{$i}}</td>
                             @endfor
                         </tr>
+
                         {{-- antra eilute savaites dienos zodziais --}}
                         <tr>
                             <td></td>
@@ -58,6 +59,7 @@
                                 <td>{{ $datetime->format('D')}}</td>
                             @endfor
                        </tr>
+                       
                           {{-- darbo valandos --}}
                        @for ($i = 6; $i < 6+16; $i++)
                        <?php $time = substr("0".$i, -2).":00"; ?>
