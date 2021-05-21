@@ -31,22 +31,30 @@
             <div class="card">
                 <div class="card-header"><h3>{{$stadium->name}}</h3>
 
-                    
+                   
                 </div>
       
                 <div class="card-body">
                     <table class="table">
                         {{-- pirma eilute, menesio dienos --}}
                         <tr>
-                            <td></td>
+                            <?php
+                                $currentDay = date("d");
+                            ?>
+                            <td class="days opacity">Dienos</td>
                             @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $i++)
-                                <td>{{$i}}</td>
+                            @if ($i < $currentDay)
+                                <td class="opacity days">{{$i}}</td>
+                            @else
+                                <td class="days">{{$i}}</td>
+                            @endif    
+                           
                             @endfor
                         </tr>
 
                         {{-- antra eilute savaites dienos zodziais --}}
                         <tr>
-                            <td></td>
+                            <td class="sides opacity">H \ weekDay</td>
                             <?php  $weekends = []; ?>
                             @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $i++)
                                 <?php
@@ -56,26 +64,44 @@
                                     $weekends[] = $i; 
                                 }
                                 ?>
-                                <td>{{ $datetime->format('D')}}</td>
+                                 @if ($i < $currentDay)
+                                 <td class="opacity sides">{{ $datetime->format('D')}}</td>
+                                @else
+                                <td class="sides">{{ $datetime->format('D')}}</td>
+                                @endif  
                             @endfor
                        </tr>
-                       
+
                           {{-- darbo valandos --}}
                        @for ($i = 6; $i < 6+16; $i++)
                        <?php $time = substr("0".$i, -2).":00"; ?>
                             <tr>
-                                <td>{{$time}}</td>
+                                <td class="sides">{{$time}}</td>
+
                                 {{-- kalendoriaus turinys --}}
-                                @for ($a = 0; $a <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $a++)
-                                
+                                @for ($a = 1; $a <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $a++)
                                    <?php 
                                    $class = "";
-                                //    dd($weekends);
                                    if(in_array($a+1, $weekends)){
                                     $class = "weekend";
-                                   } 
-                                   ?>
-                                        <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+                                   }   ?>
+
+                                    @if ($a < $currentDay)
+                                    {{-- {{dd($registrations)}} --}}
+                                        @if (array_key_exists($a+1 ." ". $time, $registrations))
+                                            <td class="opacity selected{{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+                                        @else
+                                            <td class="opacity {{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+                                        @endif
+                                    @else
+                                        @if (array_key_exists($a+1 ." ". $time, $registrations))
+                                            <td class="selected {{$class}}" value="{{$a+1 ." ". $time}}"></td>   
+                                        @else
+                                            <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td>  
+                                        @endif
+                                   {{-- <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td>    <div class="hover ">{{$a+1 ." ". $time}}</div> --}}
+                                    @endif  
+                                      
 
                                 @endfor
                             </tr>
@@ -92,6 +118,13 @@
                         @endforeach --}}
                         
                       </table>
+
+                    <form id="reg_form" action="{{route('reg.store')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="stadium_id" value="{{$stadium->id}}">
+                        <input type="hidden" id="registrations" name="registrations" >
+                        <button class="btn btn-primary" id="reg_btn" type="submit">rezervuoti laikus</button>
+                    </form>
                 </div>
             </div>
         </div>

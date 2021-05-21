@@ -64,10 +64,16 @@ class StadiumController extends Controller
     public function show($id)
     {
         $stadium = Stadium::find($id);
-        $registrations = Registration::where('stadium_id',$stadium->id)->get();
- 
+        $registrations =  Registration::where('stadium_id',$stadium->id)->get()->toArray();
+       
 
-        return view('stadia.show',['stadium' => $stadium, 'registrations' =>$registrations]);
+        $registrations2 = [];
+        for ($i=0; $i <count($registrations) ; $i++) { 
+            $registrations2[$registrations[$i]['registration_date']] = $registrations[$i];
+        }
+        // dd($registrations2);
+
+        return view('stadia.show',['stadium' => $stadium, 'registrations' =>$registrations2]);
     }
 
     /**

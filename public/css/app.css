@@ -10002,10 +10002,27 @@ h3 {
     border-color: #dee2e6;
   }
 }
-tr:nth-child(even) {
-  background-color: #dddddd;
+td {
+  background-color: #e7c182;
 }
 
 td {
   max-width: 25px;
+}
+
+.opacity {
+  opacity: 0.7;
+  filter: brightness(70%);
+}
+
+.sides {
+  background-color: #44e7d9;
+}
+
+.days {
+  background-color: #2d978e;
+}
+
+.selected {
+  background-color: #ff562c;
 }

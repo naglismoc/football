@@ -1907,21 +1907,43 @@ console.log("miau");
 
 if (false) { var cities; }
 
+var selectedCells = [];
 var cells = document.getElementsByClassName('selectable');
 console.log(cells.length);
 
 var _loop = function _loop(i) {
-  var cell = cells[i];
   cells[i].addEventListener('click', function () {
-    // cells[i].value ="tekstas";
-    console.log(cells[i].getAttribute('value'));
-    cells[i].classList.toggle("green");
+    var cell = cells[i].getAttribute('value');
+
+    if (!selectedCells.includes(cell)) {
+      if (selectedCells.length >= 3) {
+        return;
+      }
+
+      selectedCells.push(cell);
+      cells[i].classList.add("green");
+    } else {
+      var id = selectedCells.indexOf(cell);
+      selectedCells.splice(id, 1);
+      cells[i].classList.remove("green");
+    }
+
+    console.log(selectedCells);
   });
 };
 
 for (var i = 0; i < cells.length; i++) {
   _loop(i);
 }
+
+document.getElementById('reg_form').addEventListener("submit", function () {
+  document.getElementById('registrations').value = selectedCells;
+  console.log(document.getElementById('registrations').value);
+}); //  cells = document.getElementsByClassName('selected');
+// for (let i = 0; i < cells.length; i++) {
+//     let cell = cells[i].getAttribute('value');
+//         selectedCells.push(cell);
+// }
 
 /***/ }),
 

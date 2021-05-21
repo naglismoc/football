@@ -28,6 +28,17 @@ Route::group(['prefix' => 'stadia'], function(){
     });
 
 });
+Route::group(['middleware' => ['auth']], function () {
+    Route::group(['prefix' => 'reg'], function(){
+        // Route::get('/', [App\Http\Controllers\StadiumController::class, 'index'])->name('reg.index');
+   
+        // Route::get('/create', [App\Http\Controllers\StadiumController::class, 'create'])->name('reg.create');
+        Route::post('/store', [App\Http\Controllers\RegistrationController::class, 'store'])->name('reg.store');
+        // Route::get('/show/{Stadium}', [App\Http\Controllers\StadiumController::class, 'show'])->name('reg.show');
+        
+    });
+
+});
 
 
 
