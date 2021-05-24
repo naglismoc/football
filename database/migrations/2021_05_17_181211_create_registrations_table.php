@@ -19,7 +19,7 @@ class CreateRegistrationsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('stadium_id');
             $table->foreign('stadium_id')->references('id')->on('stadia');
-            $table->string('registration_date');
+            $table->timestamp('registration_date');
             $table->timestamps();
         });
     }

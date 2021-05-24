@@ -30,7 +30,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header"><h3>{{$stadium->name}}</h3>
-
+                <a href="{{route("stadia.show",["Stadium" => $stadium->id,"month" => $month+1]) }}">pirmyn</a>
                    
                 </div>
       
@@ -87,18 +87,34 @@
                                    }   ?>
 
                                     @if ($a < $currentDay)
-                                    {{-- {{dd($registrations)}} --}}
-                                        @if (array_key_exists($a+1 ." ". $time, $registrations))
-                                            <td class="opacity selected{{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+                                  {{-- dienos kurios praejo --}}
+                                        @if (array_key_exists($a ." ". $time, $registrations))
+                                            @if ($registrations[$a ." ". $time]['user_id'] == Auth::user()->id)
+                                                <td class="opacity selected yours-old {{$class}}" value="{{$a ." ". $time}}"></td> 
+                                            @else
+                                                <td class="opacity selected{{$class}}" value="{{$a ." ". $time}}"></td> 
+                                            @endif
                                         @else
-                                            <td class="opacity {{$class}}" value="{{$a+1 ." ". $time}}"></td> 
+                                            <td class="opacity {{$class}}" value="{{$a ." ". $time}}"></td> 
                                         @endif
                                     @else
-                                        @if (array_key_exists($a+1 ." ". $time, $registrations))
-                                            <td class="selected {{$class}}" value="{{$a+1 ." ". $time}}"></td>   
+                                    {{-- dienos kurios yra/bus --}}
+                                    @if (array_key_exists($a ." ". $time, $registrations))
+                                        @if ($registrations[$a ." ". $time]['user_id'] == Auth::user()->id)
+                                        
+                                            <td class="selected yours {{$class}}" value="{{$a ." ". $time}}"> 
+                                                <form class="form-delete" action="{{route('reg.delete',$registrations[$a ." ". $time]['id'])}}" method="post">
+                                                    @csrf
+                                                    <button class="btn form-delete-btn" type="submit">X</button>
+                                                </form>
+                                                <div class="hover ">{{$a ." ". $time}}</div>
+                                            </td>   
                                         @else
-                                            <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td>  
+                                            <td class="selected {{$class}}" value="{{$a ." ". $time}}"> <div class="hover ">{{$a ." ". $time}}</div></td>   
                                         @endif
+                                    @else
+                                        <td class="selectable {{$class}}" value="{{$a ." ". $time}}"> <div class="hover ">{{$a ." ". $time}}</div></td>  
+                                    @endif
                                    {{-- <td class="selectable {{$class}}" value="{{$a+1 ." ". $time}}"></td>    <div class="hover ">{{$a+1 ." ". $time}}</div> --}}
                                     @endif  
                                       
@@ -123,6 +139,7 @@
                         @csrf
                         <input type="hidden" name="stadium_id" value="{{$stadium->id}}">
                         <input type="hidden" id="registrations" name="registrations" >
+                        <input type="hidden" id="month" name="month" value= "{{$month}}" >
                         <button class="btn btn-primary" id="reg_btn" type="submit">rezervuoti laikus</button>
                     </form>
                 </div>

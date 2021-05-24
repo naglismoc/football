@@ -63,17 +63,28 @@ class StadiumController extends Controller
      */
     public function show($id)
     {
+        $month = date('m');
+     if(isset($_GET['month'])){
+        if($_GET['month'] <= 12){
+        $month = $_GET['month'];
+        }
+     }   
         $stadium = Stadium::find($id);
-        $registrations =  Registration::where('stadium_id',$stadium->id)->get()->toArray();
+        $registrations =  Registration::where('stadium_id',$stadium->id)
+        // ->where('stadium_id',$stadium->id)
+        
+        ->get()->toArray();
        
 
         $registrations2 = [];
         for ($i=0; $i <count($registrations) ; $i++) { 
+            // dd( substr( explode("-", $registrations[$i]['registration_date'] )[2],0, 8) );
+            $registrations[$i]['registration_date'] = substr( explode("-", $registrations[$i]['registration_date'] )[2],0, 8);
             $registrations2[$registrations[$i]['registration_date']] = $registrations[$i];
         }
         // dd($registrations2);
 
-        return view('stadia.show',['stadium' => $stadium, 'registrations' =>$registrations2]);
+        return view('stadia.show',['stadium' => $stadium, 'registrations' =>$registrations2, 'month' => $month]);
     }
 
     /**

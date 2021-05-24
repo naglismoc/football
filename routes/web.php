@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +33,7 @@ Route::group(['middleware' => ['auth']], function () {
    
         // Route::get('/create', [App\Http\Controllers\StadiumController::class, 'create'])->name('reg.create');
         Route::post('/store', [App\Http\Controllers\RegistrationController::class, 'store'])->name('reg.store');
+        Route::post('/delete/{Registration}', [App\Http\Controllers\RegistrationController::class, 'destroy'])->name('reg.delete');
         // Route::get('/show/{Stadium}', [App\Http\Controllers\StadiumController::class, 'show'])->name('reg.show');
         
     });

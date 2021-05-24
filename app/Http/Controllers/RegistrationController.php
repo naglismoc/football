@@ -36,13 +36,15 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
     //  dd(Auth::user()->id);
-    
+
+    // dd(date("M"));
       $registrations = explode(",",$request->registrations);
       for ($i=0; $i < count($registrations); $i++) { 
+        //   dd(date('Y')."-".date("m").'-'. $registrations[$i]);
         $registration = new Registration();
         $registration->user_id = Auth::user()->id;
         $registration->stadium_id = $request->stadium_id;
-        $registration->registration_date = $registrations[$i];
+        $registration->registration_date = date('Y')."-".$request->month.'-'. $registrations[$i].":00";
         $registration->save();
 
       }
@@ -91,8 +93,25 @@ class RegistrationController extends Controller
      * @param  \App\Models\Registration  $registration
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Registration $registration)
+    public function destroy( $id)
     {
-        //
+        // dd(date("d"));
+       $reg = Registration::find($id);
+
+       $regTime = strtotime($reg->registration_date);
+       $nowTime = (strtotime(date(DATE_ATOM)));
+    //    dd( date('H',$regTime - $nowTime) -3 );
+
+    //    if( explode(" ", date('m', strtotime($reg->registration_date))) != date('d') ){
+    //     $reg->delete();
+    //    }
+    // echo $regTime - $nowTime."<br>";
+    // echo date('h:m:s',$regTime - $nowTime);
+// dd( ($regTime - $nowTime) / 3600 );
+    if( ($regTime - $nowTime) / 3600 >= 24){
+        $reg->delete();
+    }
+       return redirect()->back();
+
     }
 }

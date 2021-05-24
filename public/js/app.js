@@ -1908,12 +1908,19 @@ console.log("miau");
 if (false) { var cities; }
 
 var selectedCells = [];
+var cellsTaken = document.getElementsByClassName('yours');
+
+for (var i = 0; i < cellsTaken.length; i++) {
+  var cell = cellsTaken[i].getAttribute('value');
+  selectedCells.push(cell);
+}
+
 var cells = document.getElementsByClassName('selectable');
 console.log(cells.length);
 
-var _loop = function _loop(i) {
-  cells[i].addEventListener('click', function () {
-    var cell = cells[i].getAttribute('value');
+var _loop = function _loop(_i) {
+  cells[_i].addEventListener('click', function () {
+    var cell = cells[_i].getAttribute('value');
 
     if (!selectedCells.includes(cell)) {
       if (selectedCells.length >= 3) {
@@ -1921,19 +1928,21 @@ var _loop = function _loop(i) {
       }
 
       selectedCells.push(cell);
-      cells[i].classList.add("green");
+
+      cells[_i].classList.add("green");
     } else {
       var id = selectedCells.indexOf(cell);
       selectedCells.splice(id, 1);
-      cells[i].classList.remove("green");
+
+      cells[_i].classList.remove("green");
     }
 
     console.log(selectedCells);
   });
 };
 
-for (var i = 0; i < cells.length; i++) {
-  _loop(i);
+for (var _i = 0; _i < cells.length; _i++) {
+  _loop(_i);
 }
 
 document.getElementById('reg_form').addEventListener("submit", function () {

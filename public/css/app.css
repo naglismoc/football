@@ -10006,6 +10006,14 @@ td {
   background-color: #e7c182;
 }
 
+.hover {
+  display: none;
+}
+
+td:hover .hover {
+  display: block;
+}
+
 td {
   max-width: 25px;
 }
@@ -10025,4 +10033,26 @@ td {
 
 .selected {
   background-color: #ff562c;
+}
+
+.yours {
+  background-color: #412cff;
+}
+
+.yours-old {
+  background-color: #412cff;
+}
+
+.form-delete {
+  position: relative;
+}
+
+.form-delete-btn {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 0;
+  line-height: 10px;
+  color: white;
+  font-weight: 900;
 }

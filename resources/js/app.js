@@ -32,46 +32,54 @@ const app = new Vue({
 });
 
 console.log("miau");
-if(false){
+if (false) {
     let cities = document.getElementById('cities');
-    cities.addEventListener('change',function(){
+    cities.addEventListener('change', function() {
         document.getElementById('cityfilter').submit();
-    
+
     });
 }
 
 let selectedCells = [];
+
+let cellsTaken = document.getElementsByClassName('yours');
+for (let i = 0; i < cellsTaken.length; i++) {
+    let cell = cellsTaken[i].getAttribute('value');
+    selectedCells.push(cell);
+}
+
+
 let cells = document.getElementsByClassName('selectable');
 console.log(cells.length);
 for (let i = 0; i < cells.length; i++) {
-   
-    cells[i].addEventListener('click', function(){
+
+    cells[i].addEventListener('click', function() {
         let cell = cells[i].getAttribute('value');
-        
-            if(!selectedCells.includes(cell)){
-                if(selectedCells.length >= 3){
-                    return;
-                }
-                selectedCells.push(cell);
-                cells[i].classList.add("green");
-            }else{
-               let id = selectedCells.indexOf(cell);
-               selectedCells.splice(id,1);
-               cells[i].classList.remove("green");
+
+        if (!selectedCells.includes(cell)) {
+            if (selectedCells.length >= 3) {
+                return;
             }
-            console.log(selectedCells);
+            selectedCells.push(cell);
+            cells[i].classList.add("green");
+        } else {
+            let id = selectedCells.indexOf(cell);
+            selectedCells.splice(id, 1);
+            cells[i].classList.remove("green");
+        }
+        console.log(selectedCells);
     });
 }
-   
-document.getElementById('reg_form').addEventListener("submit", function(){
+
+document.getElementById('reg_form').addEventListener("submit", function() {
     document.getElementById('registrations').value = selectedCells;
-    console.log(document.getElementById('registrations').value );
+    console.log(document.getElementById('registrations').value);
 });
 
 
 //  cells = document.getElementsByClassName('selected');
 // for (let i = 0; i < cells.length; i++) {
 //     let cell = cells[i].getAttribute('value');
-   
+
 //         selectedCells.push(cell);
 // }

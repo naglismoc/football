@@ -1,38 +1,65 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
-
-td{
-  background-color: #e7c182;
+td {
+    background-color: #e7c182;
 }
+
 // tr:nth-child(even) {
 //     background-color: #e7a944;
 //   }
-// .hover{
-//   display: none;
-// }
-//   td:hover + td{
-//     display: block;
-//   }
+.hover {
+    display: none;
+}
 
-td{
-  max-width: 25px;
+td:hover .hover {
+    display: block;
 }
-.opacity{
-  opacity: 0.7;
-  filter: brightness(70%);
+
+td {
+    max-width: 25px;
 }
-.sides{
-  background-color: #44e7d9;
+
+.opacity {
+    opacity: 0.7;
+    filter: brightness(70%);
 }
-.days{
-  background-color: #2d978e;
+
+.sides {
+    background-color: #44e7d9;
 }
-.selected{
-  background-color: rgb(255, 86, 44);
+
+.days {
+    background-color: #2d978e;
+}
+
+.selected {
+    background-color: rgb(255, 86, 44);
+}
+
+.yours {
+    background-color: rgb(65, 44, 255);
+}
+
+.yours-old {
+    background-color: rgb(65, 44, 255);
+}
+
+.form-delete {
+    position: relative;
+}
+
+.form-delete-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 0;
+    line-height: 10px;
+    // background-color: red;
+    // border-radius: 50%;
+    color: white;
+    font-weight: 900;
 }
