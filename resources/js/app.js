@@ -83,3 +83,15 @@ document.getElementById('reg_form').addEventListener("submit", function() {
 
 //         selectedCells.push(cell);
 // }
+let serverTime = 0; // cia paduodame minutemis laiko skirtuma nuo nulinio laiko juostos
+console.log(new Date().getTimezoneOffset() / 60, " laikas");
+let timeDif = new Date().getTimezoneOffset() + serverTime;
+let sideBar = document.getElementsByClassName('left');
+
+for (let iterator of sideBar) {
+    let minutes = (iterator.innerText.split(":")[0] * 60) + (1 * iterator.innerText.split(":")[1]);
+    // console.log(iterator.innerText.split(":")[0] * 60 + iterator.innerText.split(":")[1], "h to min");
+    iterator.innerHTML += `<span>Jūsų laiku:0${ parseInt((minutes + timeDif)/60)+':'+ (minutes + timeDif)% 60 }0</span>`
+    console.log(iterator.innerText);
+}
+console.log(sideBar[0].innerText);

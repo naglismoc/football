@@ -44,7 +44,13 @@ class RegistrationController extends Controller
         $registration = new Registration();
         $registration->user_id = Auth::user()->id;
         $registration->stadium_id = $request->stadium_id;
-        $registration->registration_date = date('Y')."-".$request->month.'-'. $registrations[$i].":00";
+
+
+        // $dayTmp =  date('Y')."-".date("m");
+        // $dayTmp = date('Y-m', strtotime($dayTmp. ' + '.$month.' month'));
+        $date = date('Y-m', strtotime(date('Y')."-".date('m'). ' + '.$request->month.' month'));
+
+        $registration->registration_date =$date.'-'. $registrations[$i].":00";
         $registration->save();
 
       }

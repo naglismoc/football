@@ -29,8 +29,23 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header"><h3>{{$stadium->name}}</h3>
-                <a href="{{route("stadia.show",["Stadium" => $stadium->id,"month" => $month+1]) }}">pirmyn</a>
+<?php
+                                    $dayTmp =  date('Y')."-".date("m");
+
+                                   
+                                   if($month < 0){
+                                   $dayTmp = date('Y-m', strtotime($dayTmp. ' - '. ( -1 * $month).' month'));
+                                   }else{
+                                    $dayTmp = date('Y-m', strtotime($dayTmp. ' + '.$month.' month'));
+                                   }
+                                 
+                                //    echo strtotime($dayTmp. ' + '.$month.' month') - time();
+?>
+
+                <div class="card-header"><h3>{{$stadium->name}}  {{$dayTmp}}</h3>
+                    <a class="btn btn-primary" href="{{route("stadia.show",["Stadium" => $stadium->id,"month" => $month-1]) }}"> atgal </a>
+                    <a class="btn btn-primary" href="{{route("stadia.show",["Stadium" => $stadium->id,"month" => 0]) }}"> dabar </a>
+                    <a class="btn btn-primary" href="{{route("stadia.show",["Stadium" => $stadium->id,"month" => $month+1]) }}"> pirmyn </a>
                    
                 </div>
       
@@ -39,15 +54,18 @@
                         {{-- pirma eilute, menesio dienos --}}
                         <tr>
                             <?php
-                                $currentDay = date("d");
+                            $currentDay = date("d");
+
+                                $currentTimestamp = time();
                             ?>
                             <td class="days opacity">Dienos</td>
                             @for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $i++)
-                            @if ($i < $currentDay)
-                                <td class="opacity days">{{$i}}</td>
-                            @else
-                                <td class="days">{{$i}}</td>
-                            @endif    
+                                {{-- @if ($i < $currentDay) --}}
+                                @if(strtotime(date('Y')."-".date("m").'-'.$i.' 23:59:59 + '.$month.' month') - time() < 0)
+                                    <td class="opacity days">{{$i}}</td>
+                                @else
+                                    <td class="days">{{$i}}</td>
+                                @endif    
                            
                             @endfor
                         </tr>
@@ -64,7 +82,7 @@
                                     $weekends[] = $i; 
                                 }
                                 ?>
-                                 @if ($i < $currentDay)
+                                 @if (strtotime(date('Y')."-".date("m").'-'.$i.' 23:59:59 + '.$month.' month') - time() < 0)
                                  <td class="opacity sides">{{ $datetime->format('D')}}</td>
                                 @else
                                 <td class="sides">{{ $datetime->format('D')}}</td>
@@ -76,7 +94,11 @@
                        @for ($i = 6; $i < 6+16; $i++)
                        <?php $time = substr("0".$i, -2).":00"; ?>
                             <tr>
-                                <td class="sides">{{$time}}</td>
+                                <td class="sides left">
+                                    <span>{{$time}}</span>
+                                    <br>
+                                    {{-- <span>Jūsų laiku: {{$time}}</span> --}}
+                                </td>
 
                                 {{-- kalendoriaus turinys --}}
                                 @for ($a = 1; $a <= cal_days_in_month(CAL_GREGORIAN,date("m"),date("Y")); $a++)
@@ -84,9 +106,12 @@
                                    $class = "";
                                    if(in_array($a+1, $weekends)){
                                     $class = "weekend";
-                                   }   ?>
-
-                                    @if ($a < $currentDay)
+                                   }  
+                                   $dayTmp = date('Y')."-".date("m").'-'.$a." ". $time;
+                                //    echo $dayTmp;
+                                   ?>
+                                    {{-- @if ($a < $currentDay) --}}
+                                    @if(strtotime($dayTmp. ' + '.$month.' month') - time() < 0)
                                   {{-- dienos kurios praejo --}}
                                         @if (array_key_exists($a ." ". $time, $registrations))
                                             @if ($registrations[$a ." ". $time]['user_id'] == Auth::user()->id)

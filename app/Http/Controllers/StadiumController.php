@@ -63,19 +63,38 @@ class StadiumController extends Controller
      */
     public function show($id)
     {
-        $month = date('m');
-     if(isset($_GET['month'])){
-        if($_GET['month'] <= 12){
-        $month = $_GET['month'];
+        // dd($_SERVER);
+    //     $month = date('m');
+    //  if(isset($_GET['month'])){
+    //     if($_GET['month'] < 12){
+    //     $month = $_GET['month'];
+    //     }
+    //  }   
+
+        $month = 0;
+        if(isset($_GET['month'])){
+                $month = $_GET['month'];
         }
-     }   
+
+
+        $dayTmp =  date('Y')."-".date("m");
+        if($month < 0){
+        $dayTmp = date('Y-m', strtotime($dayTmp. ' - '. ( -1 * $month).' month'));
+        }else{
+         $dayTmp = date('Y-m', strtotime($dayTmp. ' + '.$month.' month'));
+        }
+
+
+
+        \DB::enableQueryLog();
+
         $stadium = Stadium::find($id);
         $registrations =  Registration::where('stadium_id',$stadium->id)
-        // ->where('stadium_id',$stadium->id)
-        
+        // ->whereMonth('registration_date', '=', $month)      
+        ->whereDate('registration_date', 'like', $dayTmp."%")        
         ->get()->toArray();
-       
-
+        // dd(\DB::getQueryLog());
+        // dd($registrations);
         $registrations2 = [];
         for ($i=0; $i <count($registrations) ; $i++) { 
             // dd( substr( explode("-", $registrations[$i]['registration_date'] )[2],0, 8) );
